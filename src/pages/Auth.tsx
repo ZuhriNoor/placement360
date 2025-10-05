@@ -55,6 +55,8 @@ const Auth = () => {
     }
   };
 
+  
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -136,6 +138,11 @@ const Auth = () => {
                   <>{isLogin ? "Login" : "Sign Up"}</>
                 )}
               </Button>
+              <>{isLogin && <p className="text-center text-sm">
+  <Link to="/auth/forgot-password" className="text-primary hover:underline">
+    Forgot Password?
+  </Link>
+</p>}</>
             </form>
 
             <div className="relative">

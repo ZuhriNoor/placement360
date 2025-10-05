@@ -100,7 +100,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const value = { user, session, loading, signUp, signIn, signInWithGoogle, signOut };
+  const resetPassword = async (email: string) => {
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/reset-password`,
+    });
+    if (error) throw error;
+    toast.success("Password reset email sent! Check your inbox.");
+  } catch (error: any) {
+    toast.error(error.message || "Error sending password reset email");
+    throw error;
+  }
+};
+
+  const value = { user, session, loading, signUp, signIn, signInWithGoogle, signOut, resetPassword };
 
   return (
     <AuthContext.Provider value={value}>
