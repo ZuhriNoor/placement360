@@ -1,73 +1,22 @@
-# Welcome to your Lovable project
+# Placement 360 🚀
 
-## Project info
+Placement 360 is a web platform designed to help students prepare for campus placements by providing a centralized hub for company interview reviews and work experience feedback. It allows users to read authentic experiences from their peers and contribute their own to help the community.
 
-**URL**: https://lovable.dev/projects/f9a35af3-7c84-4269-b72b-89865a1c3adb
+---
 
-## How can I edit this code?
+## Key Features ✨
 
-There are several ways of editing your application.
+* **Browse Companies:** View a searchable and filterable list of companies.
+* **Read Detailed Reviews:** Access in-depth reviews on placement processes, interview rounds, work culture, and compensation.
+* **User Authentication:** Secure login and registration for submitting reviews.
+* **Submit Reviews:** An intuitive form for users to share their own placement or work experiences.
+* **Admin Dashboard:** A protected area for administrators to moderate (approve/reject) submitted reviews and manage the company list.
+* **Modern UI:** A clean, responsive interface built with Tailwind CSS and shadcn/ui, featuring custom animations.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f9a35af3-7c84-4269-b72b-89865a1c3adb) and start prompting.
+## Tech Stack 💻
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f9a35af3-7c84-4269-b72b-89865a1c3adb) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+* **Frontend:** React, Vite, TypeScript, React Router
+* **Styling:** Tailwind CSS, shadcn/ui
+* **Backend & Database:** Supabase (Authentication, Postgres Database, Storage)
