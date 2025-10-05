@@ -45,16 +45,8 @@ const Auth = () => {
       <div className="absolute top-0 left-0 right-0 border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/">
-            <h1 className="text-2xl font-bold">CampusConnect Reviews</h1>
+            <h1 className="text-2xl font-bold">Placement360</h1>
           </Link>
-          <nav className="flex items-center gap-6">
-            <Link to="/companies" className="text-muted-foreground hover:text-foreground transition-colors">
-              View Reviews
-            </Link>
-            <Link to="/write" className="text-muted-foreground hover:text-foreground transition-colors">
-              Write a Review
-            </Link>
-          </nav>
         </div>
       </div>
 
