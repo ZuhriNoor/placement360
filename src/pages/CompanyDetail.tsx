@@ -67,7 +67,7 @@ const CompanyDetail = () => {
         <div className="container mx-auto px-4 py-12 text-center">
           <h2 className="text-2xl font-bold mb-4">Company not found</h2>
           <Link to="/companies">
-            <Button variant="outline" className="neon-border">
+            <Button variant="ghost" className="neon-border">
               Back to Companies
             </Button>
           </Link>
@@ -80,7 +80,7 @@ const CompanyDetail = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-8 md:py-12">
         <Link to="/companies">
           <Button variant="outline" className="mb-8 neon-border">
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -91,13 +91,13 @@ const CompanyDetail = () => {
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Company Header */}
           <div className="flex items-start gap-6">
-            <div className="w-24 h-24 bg-secondary rounded-lg border border-border flex items-center justify-center">
+            <div className="h-14 w-14 md:w-24 md:h-24 bg-secondary rounded-lg border border-border flex items-center justify-center">
               <span className="text-2xl font-bold text-muted-foreground">
                 {company.name.charAt(0).toUpperCase()}
               </span>
             </div>
             <div className="flex-1">
-              <h2 className="text-4xl font-bold mb-2">{company.name}</h2>
+              <h2 className="text-2xl md:text-4xl font-bold mb-2">{company.name}</h2>
               <p className="text-muted-foreground mb-4">{company.description || "Tech company"}</p>
               {company.website && (
                 <a
@@ -115,7 +115,7 @@ const CompanyDetail = () => {
           {/* Review Type Cards */}
           <div className="grid md:grid-cols-2 gap-6">
             <Link to={`/company/${slug}/placement`}>
-              <div className="bg-card border border-border rounded-lg p-8 card-glow group cursor-pointer">
+              <div className="bg-card border border-border rounded-lg p-6 md:p-8 card-glow group cursor-pointer animated-border animate-border-beam">
                 <div className="flex items-start justify-between mb-4">
                   <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
@@ -125,7 +125,7 @@ const CompanyDetail = () => {
             </Link>
 
             <Link to={`/company/${slug}/work`}>
-              <div className="bg-card border border-border rounded-lg p-8 card-glow group cursor-pointer">
+              <div className="bg-card border border-border rounded-lg p-6 md:p-8 card-glow group cursor-pointer animated-border animate-border-beam">
                 <div className="flex items-start justify-between mb-4">
                   <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>

@@ -136,13 +136,13 @@ export default function PlacementReviews() {
       <Navbar />
       <main className="container mx-auto px-4 py-8">
         <Link to={`/company/${slug}`}>
-          <Button variant="ghost" className="mb-4">
+          <Button variant="outline" className="mb-4 neon-border">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to {company.name}
           </Button>
         </Link>
 
-        <h1 className="text-3xl font-bold mb-2">{company.name} - Placement Process Reviews</h1>
+        <h1 className="text-2xl md:text-3xl font-bold mb-2">{company.name} - Placement Process Reviews</h1>
         <p className="text-muted-foreground mb-8">
           {reviews.length} {reviews.length === 1 ? 'review' : 'reviews'} available
         </p>
@@ -160,8 +160,8 @@ export default function PlacementReviews() {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle>{review.position_applied_for}</CardTitle>
-                      <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
+                      <CardTitle className="text-xl">{review.position_applied_for}</CardTitle>
+                      <div className="flex items-center gap-2 mt-2 text-xs md:text-sm text-muted-foreground">
                         <User className="w-4 h-4" />
                         {review.is_anonymous ? "Anonymous" : review.profiles?.full_name}
                         <span>•</span>
@@ -189,7 +189,7 @@ export default function PlacementReviews() {
                   <Button 
                     onClick={() => loadRounds(review.id)}
                     variant="outline"
-                    className="w-full"
+                    className="w-full neon-border"
                   >
                     {selectedReview === review.id ? "Hide" : "View"} Round Details
                   </Button>

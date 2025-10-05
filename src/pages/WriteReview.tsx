@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, Briefcase, ArrowRight } from "lucide-react";
+import { GraduationCap, Briefcase, ArrowRight, ArrowLeft } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -19,20 +19,24 @@ const WriteReview = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <main className="container mx-auto px-4 py-16">
-        <div className="max-w-5xl mx-auto space-y-12">
+      <main className="container mx-auto px-4 py-6">
+        <div className="max-w-5xl mx-auto space-y-6">
+          <Button variant="ghost" onClick={() => navigate(-1)} className="neon-border">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
           <div className="text-center space-y-4">
-            <h2 className="text-4xl font-bold">Share Your Experience</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-4xl font-bold">Share Your Experience</h2>
+            <p className="textlg md:text-xl text-muted-foreground max-w-2xl mx-auto">
               Your insights help the community grow. Choose the type of review you'd like to submit.
             </p>
           </div>
 
           {/* Review Type Cards */}
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-card border border-border rounded-lg p-8 card-glow">
-              <h3 className="text-2xl font-bold mb-3">Placement Process Review</h3>
-              <p className="text-muted-foreground mb-4">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+            <div className="bg-card border border-border rounded-lg p-8 card-glow animated-border animate-border-beam">
+              <h3 className="text-xl md:text-2xl font-bold mb-3">Placement Process Review</h3>
+              <p className="text-muted-foreground mb-4 text-sm md:text-md">
                 Share your interview and assessment experience.
               </p>
               <p className="text-sm text-muted-foreground mb-6">
@@ -45,9 +49,9 @@ const WriteReview = () => {
               </Link>
             </div>
 
-            <div className="bg-card border border-border rounded-lg p-8 card-glow">
-              <h3 className="text-2xl font-bold mb-3">Work Experience Review</h3>
-              <p className="text-muted-foreground mb-4">
+            <div className="bg-card border border-border rounded-lg p-8 card-glow animated-border animate-border-beam">
+              <h3 className="text-xl md:text-2xl font-bold mb-3">Work Experience Review</h3>
+              <p className="text-muted-foreground mb-4 text-sm md:text-md">
                 Share insights about your job and the company culture.
               </p>
               <p className="text-sm text-muted-foreground mb-6">

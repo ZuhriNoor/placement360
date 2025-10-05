@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Loader2 } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -40,20 +41,22 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      {/* Header */}
-      <div className="absolute top-0 left-0 right-0 border-b border-border">
+    <div className="min-h-screen bg-background">
+      <Navbar />
+    <div className="flex items-center justify-center p-5 mt-3 md:mt-3">
+ 
+      {/* <div className="absolute top-0 left-0 right-0 border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/">
             <h1 className="text-2xl font-bold">Placement360</h1>
           </Link>
         </div>
-      </div>
+      </div> */}
 
-      <Card className="w-full max-w-md p-8 border-border neon-border">
+      <Card className="w-full max-w-md p-6 border-border neon-border">
         <div className="space-y-6">
           <div className="space-y-2 text-center">
-            <h2 className="text-3xl font-bold">{isLogin ? "Login" : "Sign Up"}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold">{isLogin ? "Login" : "Sign Up"}</h2>
             <p className="text-muted-foreground">
               {isLogin
                 ? "Enter your credentials to access your account."
@@ -63,7 +66,7 @@ const Auth = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
-              <div className="space-y-2">
+              <div className="space-y-2 text-lg">
                 <Label htmlFor="fullName">Full Name</Label>
                 <Input
                   id="fullName"
@@ -175,6 +178,7 @@ const Auth = () => {
           </div>
         </div>
       </Card>
+    </div>
     </div>
   );
 };

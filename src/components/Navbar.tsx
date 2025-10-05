@@ -31,9 +31,9 @@ export const Navbar = () => {
 
   return (
     <header className="border-b border-border sticky top-0 bg-background z-50">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="container mx-auto md:px-4 py-4 flex items-center justify-between">
         <Link to="/">
-          <h1 className="text-2xl font-bold">Placement360</h1>
+          <h1 className="text-xl md:text-2xl font-bold">Placement360</h1>
         </Link>
         <nav className="flex items-center gap-4 md:gap-6">
           {/* This link is hidden on mobile (hidden) and shown on medium screens and up (md:block) */}
