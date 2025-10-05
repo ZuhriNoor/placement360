@@ -144,7 +144,7 @@ export default function WorkReviews() {
         ) : (
           <div className="space-y-6">
             {reviews.map((review) => (
-              <Card key={review.id} className="cursor-pointer hover:shadow-lg transition-shadow">
+              <Card key={review.id} className="cursor-pointer hover:shadow-lg transition-shadow animated-border animate-border-beam">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>

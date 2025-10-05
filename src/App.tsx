@@ -15,6 +15,7 @@ import PlacementReviews from "./pages/PlacementReviews";
 import WorkReviews from "./pages/WorkReviews";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -28,14 +29,72 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/companies" element={<Companies />} />
-            <Route path="/company/:slug" element={<CompanyDetail />} />
-            <Route path="/company/:slug/placement" element={<PlacementReviews />} />
-            <Route path="/company/:slug/work" element={<WorkReviews />} />
-            <Route path="/write" element={<WriteReview />} />
-            <Route path="/write/placement" element={<WritePlacementReview />} />
-            <Route path="/write/work" element={<WriteWorkReview />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route
+              path="/companies"
+              element={
+                <ProtectedRoute>
+                  <Companies />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/company/:slug"
+              element={
+                <ProtectedRoute>
+                  <CompanyDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/company/:slug/placement"
+              element={
+                <ProtectedRoute>
+                  <PlacementReviews />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/company/:slug/work"
+              element={
+                <ProtectedRoute>
+                  <WorkReviews />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/write"
+              element={
+                <ProtectedRoute>
+                  <WriteReview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/write/placement"
+              element={
+                <ProtectedRoute>
+                  <WritePlacementReview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/write/work"
+              element={
+                <ProtectedRoute>
+                  <WriteWorkReview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <Admin />
+                </ProtectedRoute>
+              }
+            />
+
+
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

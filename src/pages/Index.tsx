@@ -23,7 +23,7 @@ const Index = () => {
         {/* Feature Cards */}
         <div className="grid md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto mt-10 md:mt-20">
           {/* Card 1: For Students */}
-          <div className="bg-card rounded-lg p-6 md:p-8 animated-border animate-border-beam">
+          <div className="bg-card rounded-lg p-6 md:p-8 card-glow animated-border animate-border-beam">
             <h3 className="text-2xl font-bold mb-3">For Students</h3>
             <p className="text-muted-foreground mb-4 text-sm md:text-md">
               Preparing for placements? Read detailed reviews about interview processes, assessment patterns, coding questions and preparation tips from seniors.
@@ -34,7 +34,7 @@ const Index = () => {
           </div>
 
           {/* Card 2: For Contributors */}
-          <div className="bg-card rounded-lg p-6 md:p-8 animated-border animate-border-beam">
+          <div className="bg-card rounded-lg p-6 md:p-8 card-glow animated-border animate-border-beam">
             <h3 className="text-2xl font-bold mb-3">For Contributors</h3>
             <p className="text-muted-foreground mb-4 text-sm md:text-md">
               Share your placement journey and work experience. Help the community by detailing interview rounds, company culture, and career growth.

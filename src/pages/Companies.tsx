@@ -46,10 +46,12 @@ const Companies = () => {
       <main className="container mx-auto px-4 py-6">
 
         <div className="max-w-4xl mx-auto space-y-8">
-          <Button variant="ghost" onClick={() => navigate(-1)} className="mb-4 neon-border">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
+          <Link to="/">
+            <Button variant="outline" className="mb-4 neon-border">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
           <div className="text-center space-y-4">
             <h2 className="text-2xl md:text-4xl font-bold">Explore Companies</h2>
             <p className="text-lg md:text-xl text-muted-foreground">
@@ -83,7 +85,7 @@ const Companies = () => {
                     className="block h-full" // FIX 1: Make the link a block element
                   >
                     {/* FIX 2: Use the correct animation class and remove redundant/conflicting classes */}
-                    <div className="bg-card rounded-lg p-4 md:p-6 hover:bg-card-hover text-center h-full animated-border animate-border-beam">
+                    <div className="bg-card rounded-lg p-4 md:p-6 hover:bg-card-hover text-center h-full card-glow animated-border animate-border-beam">
                       <h3 className="text-xl font-bold">{company.name}</h3>
                     </div>
                   </Link>
