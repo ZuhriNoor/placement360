@@ -338,7 +338,7 @@ export default function WritePlacementReview() {
                       <Textarea
                         value={round.tips || ""}
                         onChange={(e) => updateRound(index, "tips", e.target.value)}
-                        placeholder="Share your preparation tips and advice"
+                        placeholder="Share your preparation tips and advice (for coding round please mention the questions asked)"
                         rows={3}
                       />
                     </div>
