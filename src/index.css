@@ -102,3 +102,7 @@ All colors MUST be HSL.
   background-clip: padding-box, border-box;
   border: var(--border-size) solid transparent;
 }
+
+.range-primary {
+  accent-color: hsl(var(--primary));
+}

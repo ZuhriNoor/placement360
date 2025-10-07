@@ -288,11 +288,11 @@ export default function WritePlacementReview() {
                     </div>
 
                     <div>
-                      <Label>Difficulty (1-10)</Label>
+                      <Label>Difficulty (1-5)</Label>
                       <Input
                         type="number"
                         min="1"
-                        max="10"
+                        max="5"
                         value={round.difficulty || ""}
                         onChange={(e) => updateRound(index, "difficulty", parseInt(e.target.value))}
                       />

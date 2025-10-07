@@ -228,28 +228,28 @@ export default function WriteWorkReview() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="workLife">Work-Life Balance: {workLifeBalance}/10</Label>
+                  <Label htmlFor="workLife">Work-Life Balance: {workLifeBalance}/5</Label>
                   <Input
                     id="workLife"
                     type="range"
                     min="1"
-                    max="10"
+                    max="5"
                     value={workLifeBalance}
                     onChange={(e) => setWorkLifeBalance(parseInt(e.target.value))}
-                    className="mt-2"
+                    className="mt-2 range-primary"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="culture">Company Culture: {cultureRating}/10</Label>
+                  <Label htmlFor="culture">Company Culture: {cultureRating}/5</Label>
                   <Input
                     id="culture"
                     type="range"
                     min="1"
-                    max="10"
+                    max="5"
                     value={cultureRating}
                     onChange={(e) => setCultureRating(parseInt(e.target.value))}
-                    className="mt-2"
+                    className="mt-2 range-primary"
                   />
                 </div>
 
