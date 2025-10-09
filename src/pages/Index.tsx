@@ -10,7 +10,7 @@ const Index = () => {
       {/* Hero Section */}
       <main className="container mx-auto md:px-4 py-12 md:py-12">
         <div className="max-w-4xl mx-auto text-center space-y-4 md:space-y-6">
-            <p className="text-lg font-semibold">Exclusively for CET MCA Students</p>
+          <p className="text-md font-semibold">Exclusively for CET MCA Students</p>
           <h2 className="text-2xl md:text-5xl font-bold leading-tight">
             Your Guide to Campus
             <br />
@@ -23,7 +23,7 @@ const Index = () => {
         </div>
 
         {/* Feature Cards */}
-        <div className="grid md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto mt-10 md:mt-20">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto mt-10 md:mt-14">
           {/* Card 1: For Students */}
           <div className="bg-card rounded-lg p-6 md:p-8 card-glow animated-border animate-border-beam">
             <h3 className="text-2xl font-bold mb-3">For Students</h3>
@@ -46,6 +46,7 @@ const Index = () => {
             </Link>
           </div>
         </div>
+        <p className="text-xs text-center mt-5 text-gray-400">Built by Zuhri Noor, 2026</p>
       </main>
     </div>
   );
