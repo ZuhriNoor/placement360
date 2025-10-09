@@ -35,7 +35,7 @@ export default function WritePlacementReview() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState<Company[]>([]);
-  
+
   const [companyId, setCompanyId] = useState("");
   const [positionAppliedFor, setPositionAppliedFor] = useState("");
   const [batch, setBatch] = useState("");
@@ -58,7 +58,7 @@ export default function WritePlacementReview() {
         .from("companies")
         .select("id, name, slug")
         .order("name");
-      
+
       if (data) setCompanies(data);
     };
 
@@ -81,7 +81,7 @@ export default function WritePlacementReview() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!companyId || !positionAppliedFor || !batch) {
       toast.error("Please fill in all required fields");
       return;
@@ -308,11 +308,17 @@ export default function WritePlacementReview() {
                     </div>
 
                     <div>
-                      <Label>Sections</Label>
+                      <Label>
+                        {round.round_type === 'coding' ? 'Questions Asked' : 'Sections (If coding round included, please mention questions)'}
+                      </Label>
                       <Textarea
                         value={round.sections || ""}
                         onChange={(e) => updateRound(index, "sections", e.target.value)}
-                        placeholder="e.g., 3 coding questions, 20 MCQs"
+                        placeholder={
+                          round.round_type === 'coding'
+                            ? 'e.g.,\n1. Print an array\n2. Reverse an array'
+                            : 'e.g., 3 coding questions, 20 MCQs'
+                        }
                       />
                     </div>
 
@@ -338,7 +344,7 @@ export default function WritePlacementReview() {
                       <Textarea
                         value={round.tips || ""}
                         onChange={(e) => updateRound(index, "tips", e.target.value)}
-                        placeholder="Share your preparation tips and advice (for coding round please mention the questions asked)"
+                        placeholder="Share your preparation tips and advice"
                         rows={3}
                       />
                     </div>

@@ -8,13 +8,15 @@ const Index = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <main className="container mx-auto md:px-4 py-12 md:py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-4 md:space-y-8">
+      <main className="container mx-auto md:px-4 py-12 md:py-12">
+        <div className="max-w-4xl mx-auto text-center space-y-4 md:space-y-6">
+            <p className="text-lg font-semibold">Exclusively for CET MCA Students</p>
           <h2 className="text-2xl md:text-5xl font-bold leading-tight">
             Your Guide to Campus
             <br />
             <span className="text-primary">Placement Success</span>
           </h2>
+
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Real experiences from students who've been through the process. Get insights on interview rounds, assessments, and company culture.
           </p>

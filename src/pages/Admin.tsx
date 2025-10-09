@@ -302,6 +302,7 @@ export default function Admin() {
           <div className="max-h-[60vh] overflow-y-auto p-4 space-y-4">
             {loadingRounds ? (
                <div className="flex items-center justify-center py-12"><Loader2 className="w-6 h-6 animate-spin" /></div>
+               
             ) : selectedReview?.review_type === 'placement' ? (
                 rounds.length > 0 ? (
                   rounds.map((round, index) => (
@@ -321,7 +322,7 @@ export default function Admin() {
                       </CardContent>
                     </Card>
                   ))
-                ) : <p className="text-muted-foreground text-center py-8">No round details found for this placement review.</p>
+                ) : <p className="text-muted-foreground text-center py-8">{selectedReview?.created_at} No round details found for this placement review.</p>
             ) : (
                 <p className="text-muted-foreground text-center py-8">Work experience reviews do not have detailed rounds.</p>
             )}
