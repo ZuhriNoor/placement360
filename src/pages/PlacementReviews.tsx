@@ -215,7 +215,7 @@ export default function PlacementReviews() {
                           <CardContent className="space-y-3">
                             {round.difficulty && (
                               <div>
-                                <span className="font-semibold">Difficulty:</span> {round.difficulty}/10
+                                <span className="font-semibold">Difficulty:</span> {round.difficulty}/5
                               </div>
                             )}
                             {round.topics_covered && (
