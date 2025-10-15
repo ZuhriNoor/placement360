@@ -347,7 +347,7 @@ export default function WritePlacementReview() {
                   </div>
                 ))}
                 
-                <Button type="button" onClick={addRound} size="sm" variant="outline">
+                <Button className="w-full neon-border" type="button" onClick={addRound} size="sm" variant="outline">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Round
                 </Button>
