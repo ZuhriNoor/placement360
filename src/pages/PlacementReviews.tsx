@@ -5,7 +5,8 @@ import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, ArrowLeft, User } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Loader2, ArrowLeft, User, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 type Review = {
@@ -40,8 +41,10 @@ export default function PlacementReviews() {
   const [loading, setLoading] = useState(true);
   const [company, setCompany] = useState<any>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [selectedReview, setSelectedReview] = useState<string | null>(null);
   const [rounds, setRounds] = useState<Round[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedReviewDetails, setSelectedReviewDetails] = useState<Review | null>(null);
+
 
   useEffect(() => {
     if (!user) {
@@ -80,21 +83,17 @@ export default function PlacementReviews() {
     setLoading(false);
   };
 
-  const loadRounds = async (reviewId: string) => {
-    if (selectedReview === reviewId) {
-      setSelectedReview(null);
-      return;
-    }
-
+  const loadRoundsAndOpenDialog = async (review: Review) => {
     const { data } = await supabase
       .from("placement_rounds")
       .select("*")
-      .eq("review_id", reviewId)
+      .eq("review_id", review.id)
       .order("round_order");
 
     if (data) {
       setRounds(data);
-      setSelectedReview(reviewId);
+      setSelectedReviewDetails(review);
+      setIsDialogOpen(true);
     }
   };
 
@@ -156,8 +155,7 @@ export default function PlacementReviews() {
         ) : (
           <div className="space-y-6">
             {reviews.map((review) => (
-
-              <Card key={review.id} className="cursor-pointer hover:shadow-lg transition-shadow animated-border animate-border-beam">
+              <Card key={review.id} className="hover:shadow-lg transition-shadow animated-border animate-border-beam">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
@@ -188,65 +186,77 @@ export default function PlacementReviews() {
                   )}
                   
                   <Button 
-                    onClick={() => loadRounds(review.id)}
+                    onClick={() => loadRoundsAndOpenDialog(review)}
                     variant="outline"
                     className="w-full neon-border"
                   >
-                    {selectedReview === review.id ? "Hide" : "View"} Round Details
+                    View Round Details
                   </Button>
-
-                  {selectedReview === review.id && (
-                    <div className="mt-6 space-y-4">
-                      {rounds.map((round, index) => (
-                        <Card key={index}>
-                          <CardHeader>
-                            <CardTitle className="text-lg flex items-center justify-between">
-                              <span>Round {round.round_order}: {getRoundTypeLabel(round.round_type)}</span>
-                              {round.pass_status && (
-                                <Badge variant={round.pass_status === "passed" ? "default" : "secondary"}>
-                                  {round.pass_status}
-                                </Badge>
-                              )}
-                            </CardTitle>
-                            {round.round_name && (
-                              <p className="text-sm text-muted-foreground">{round.round_name}</p>
-                            )}
-                          </CardHeader>
-                          <CardContent className="space-y-3">
-                            {round.difficulty && (
-                              <div>
-                                <span className="font-semibold">Difficulty:</span> {round.difficulty}/5
-                              </div>
-                            )}
-                            {round.topics_covered && (
-                              <div>
-                                <span className="font-semibold">Topics:</span>
-                                <p className="text-muted-foreground mt-1">{round.topics_covered}</p>
-                              </div>
-                            )}
-                            {round.sections && (
-                              <div>
-                                <span className="font-semibold">Sections:</span>
-                                <p className="text-muted-foreground mt-1">{round.sections}</p>
-                              </div>
-                            )}
-                            {round.tips && (
-                              <div>
-                                <span className="font-semibold">Tips:</span>
-                                <p className="text-muted-foreground mt-1">{round.tips}</p>
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  )}
                 </CardContent>
               </Card>
-
             ))}
           </div>
         )}
+
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="sm:max-w-[625px]">
+            <DialogHeader>
+              <DialogTitle>Round Details for {selectedReviewDetails?.position_applied_for}</DialogTitle>
+            </DialogHeader>
+            <div className="max-h-[60vh] overflow-y-auto pr-4 space-y-4 py-4">
+                {rounds.map((round, index) => (
+                  <Card key={index}>
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center justify-between">
+                        <span>Round {round.round_order}: {getRoundTypeLabel(round.round_type)}</span>
+                        {round.pass_status && (
+                          <Badge variant={round.pass_status === "passed" ? "default" : "secondary"}>
+                            {round.pass_status}
+                          </Badge>
+                        )}
+                      </CardTitle>
+                      {round.round_name && (
+                        <p className="text-sm text-muted-foreground">{round.round_name}</p>
+                      )}
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {round.difficulty && (
+                        <div>
+                          <span className="font-semibold">Difficulty:</span> {round.difficulty}/5
+                        </div>
+                      )}
+                      {round.topics_covered && (
+                        <div>
+                          <span className="font-semibold">Topics:</span>
+                          <p className="text-muted-foreground mt-1">{round.topics_covered}</p>
+                        </div>
+                      )}
+                      {round.sections && (
+                        <div>
+                          <span className="font-semibold">Sections:</span>
+                          <p className="text-muted-foreground mt-1">{round.sections}</p>
+                        </div>
+                      )}
+                      {round.tips && (
+                        <div>
+                          <span className="font-semibold">Tips:</span>
+                          <p className="text-muted-foreground mt-1">{round.tips}</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+            </div>
+            <DialogFooter>
+                <DialogClose asChild>
+                    <Button type="button" variant="secondary">
+                        Close
+                    </Button>
+                </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
       </main>
     </div>
   );

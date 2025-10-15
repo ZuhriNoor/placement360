@@ -234,12 +234,8 @@ export default function WritePlacementReview() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center justify-between">
+                <CardTitle>
                   <span>Placement Rounds</span>
-                  <Button type="button" onClick={addRound} size="sm" variant="outline">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Round
-                  </Button>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -350,6 +346,11 @@ export default function WritePlacementReview() {
                     </div>
                   </div>
                 ))}
+                
+                <Button type="button" onClick={addRound} size="sm" variant="outline">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Round
+                </Button>
               </CardContent>
             </Card>
 

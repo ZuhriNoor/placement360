@@ -315,7 +315,7 @@ export default function Admin() {
                         {round.round_name && <p className="text-sm text-muted-foreground">{round.round_name}</p>}
                       </CardHeader>
                       <CardContent className="space-y-3 text-sm">
-                        {round.difficulty && <div><span className="font-semibold">Difficulty:</span> {round.difficulty}/10</div>}
+                        {round.difficulty && <div><span className="font-semibold">Difficulty:</span> {round.difficulty}/5</div>}
                         {round.topics_covered && <div><span className="font-semibold">Topics:</span><p className="text-muted-foreground mt-1">{round.topics_covered}</p></div>}
                         {round.sections && <div><span className="font-semibold">Sections:</span><p className="text-muted-foreground mt-1">{round.sections}</p></div>}
                         {round.tips && <div><span className="font-semibold">Tips:</span><p className="text-muted-foreground mt-1">{round.tips}</p></div>}

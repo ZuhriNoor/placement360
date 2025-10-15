@@ -46,7 +46,7 @@ const Index = () => {
             </Link>
           </div>
         </div>
-        <p className="text-xs text-center mt-5 text-gray-400">Built by Zuhri Noor, 2026</p>
+        {/* <p className="text-xs text-center mt-5 text-gray-400">Developed by Zuhri Noor, 2026</p> */}
       </main>
     </div>
   );
