@@ -86,7 +86,7 @@ export const PlacementStats = () => {
 
         // Calculate Stats
         const companyMap: Record<string, CompanyStats> = {};
-        let totalPlaced = 0;
+        const uniqueStudents = new Set<string>();
 
         filteredStudents.forEach((student) => {
             const companyName = student.companies?.name || "Unknown";
@@ -101,18 +101,16 @@ export const PlacementStats = () => {
             }
 
             companyMap[companyName].count++;
-            totalPlaced++;
+            uniqueStudents.add(student.student_name);
         });
 
         const sortedStats = Object.values(companyMap).sort((a, b) => b.count - a.count);
         setStats(sortedStats);
 
-        // Find highest package (simple string extraction/comparison might be tricky, showing generic for now or finding max if numeric)
-        // For now, let's just count total companies
         setSummary({
-            totalPlaced,
+            totalPlaced: uniqueStudents.size,
             totalCompanies: Object.keys(companyMap).length,
-            highestPackage: "N/A" // Placeholder, requires parsing logic
+            highestPackage: "N/A"
         });
 
     }, [selectedBatch, allStudents]);
