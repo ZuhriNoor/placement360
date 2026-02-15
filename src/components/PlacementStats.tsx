@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Users, Trophy, Building2, Filter } from "lucide-react";
+import { Loader2, Users, Trophy, Building2, Filter, Linkedin, Briefcase, Banknote, GraduationCap } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 type PlacedStudent = {
     id: string;
@@ -10,6 +13,8 @@ type PlacedStudent = {
     student_name: string;
     batch: string;
     package: string | null;
+    role: string | null;
+    student_img_url?: string | null; // Assuming we might have this, strictly typing based on earlier usage
     companies: {
         name: string;
         slug: string;
@@ -37,6 +42,11 @@ export const PlacementStats = () => {
         highestPackage: "N/A",
     });
 
+    const [selectedCompany, setSelectedCompany] = useState<CompanyStats | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [companyStudents, setCompanyStudents] = useState<PlacedStudent[]>([]);
+
+
     useEffect(() => {
         const fetchStats = async () => {
             const { data, error } = await supabase
@@ -47,6 +57,8 @@ export const PlacementStats = () => {
           company_id,
           package,
           student_name,
+          role,
+          linkedin_url,
           companies (
             name,
             slug,
@@ -61,7 +73,12 @@ export const PlacementStats = () => {
             }
 
             if (data) {
-                const students = data as unknown as PlacedStudent[];
+                // Map data to match PlacedStudent type including aliased or direct fields
+                const students = data.map((item: any) => ({
+                    ...item,
+                    // student_img_url removed as per schema
+                })) as PlacedStudent[];
+
                 setAllStudents(students);
 
                 // Extract unique batches
@@ -115,6 +132,15 @@ export const PlacementStats = () => {
         });
 
     }, [selectedBatch, allStudents]);
+
+    const handleCompanyClick = (company: CompanyStats) => {
+        const studentsInCompany = allStudents.filter(
+            s => s.batch === selectedBatch && s.companies.name === company.name
+        );
+        setCompanyStudents(studentsInCompany);
+        setSelectedCompany(company);
+        setIsDialogOpen(true);
+    };
 
     if (loading) {
         return (
@@ -195,7 +221,8 @@ export const PlacementStats = () => {
                                 stats.map((company, index) => (
                                     <tr
                                         key={company.slug}
-                                        className={`border-b last:border-0 hover:bg-muted/50 transition-colors ${index % 2 === 0 ? 'bg-background/50' : ''}`}
+                                        className={`border-b last:border-0 hover:bg-muted/50 transition-colors ${index % 2 === 0 ? 'bg-background/50' : ''} cursor-pointer`}
+                                        onClick={() => handleCompanyClick(company)}
                                     >
                                         <td className="px-6 py-4 font-medium flex items-center gap-3">
                                             <div className="w-8 h-8 rounded bg-secondary flex items-center justify-center text-xs font-bold border">
@@ -238,7 +265,8 @@ export const PlacementStats = () => {
                     stats.map((company) => (
                         <div
                             key={company.slug}
-                            className="flex items-center justify-between p-4 rounded-lg border bg-card/50 backdrop-blur-sm card-glow"
+                            className="flex items-center justify-between p-4 rounded-lg border bg-card/50 backdrop-blur-sm card-glow cursor-pointer"
+                            onClick={() => handleCompanyClick(company)}
                         >
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-sm font-bold border shrink-0">
@@ -266,6 +294,66 @@ export const PlacementStats = () => {
                     </div>
                 )}
             </div>
+
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogContent className="sm:max-w-xl max-h-[85vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            {selectedCompany?.logo_url && (
+                                <img src={selectedCompany.logo_url} alt={selectedCompany.name} className="w-6 h-6 rounded-full" />
+                            )}
+                            <span>{selectedCompany?.name} Placements</span>
+                        </DialogTitle>
+                        <DialogDescription>
+                            Batch {selectedBatch} • {companyStudents.length} Students Placed
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-4 py-4">
+                        {companyStudents.map((student, idx) => (
+                            <div key={idx} className="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 rounded-lg border bg-card/50">
+                                <Avatar className="w-12 h-12 border">
+                                    <AvatarImage src={student.student_img_url || ""} />
+                                    <AvatarFallback>{student.student_name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+
+                                <div className="flex-1 text-center sm:text-left space-y-1">
+                                    <h4 className="font-bold">{student.student_name}</h4>
+                                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1 text-sm text-muted-foreground">
+                                        {student.role && (
+                                            <div className="flex items-center gap-1">
+                                                <Briefcase className="w-3 h-3" />
+                                                <span>{student.role}</span>
+                                            </div>
+                                        )}
+                                        {student.package && (
+                                            <div className="flex items-center gap-1 text-primary font-medium">
+                                                <Banknote className="w-3 h-3" />
+                                                <span>{student.package}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Optional: Add LinkedIn button if available, currently mapping type doesn't explicitly have it but we fetched it */}
+                                {(student as any).linkedin_url && (
+                                    <a
+                                        href={(student as any).linkedin_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="shrink-0"
+                                    >
+                                        <Button size="sm" variant="outline" className="gap-2 h-8">
+                                            <Linkedin className="w-3 h-3 text-[#0077b5]" />
+                                            <span className="hidden sm:inline">Profile</span>
+                                        </Button>
+                                    </a>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </DialogContent>
+            </Dialog>
         </section>
     );
 };
