@@ -49,7 +49,7 @@ const Index = () => {
         </div>
 
         {/* Placement Statistics */}
-        <div className="mt-16 md:mt-24">
+        <div className="mt-16 md:mt-18">
           <PlacementStats />
         </div>
         {/* <p className="text-xs text-center mt-5 text-gray-400">Developed by Zuhri Noor, 2026</p> */}
