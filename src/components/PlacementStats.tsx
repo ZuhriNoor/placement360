@@ -6,6 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 type PlacedStudent = {
     id: string;
@@ -30,6 +32,7 @@ type CompanyStats = {
 };
 
 export const PlacementStats = () => {
+    const { user } = useAuth();
     const [allStudents, setAllStudents] = useState<PlacedStudent[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedBatch, setSelectedBatch] = useState<string>("");
@@ -134,6 +137,11 @@ export const PlacementStats = () => {
     }, [selectedBatch, allStudents]);
 
     const handleCompanyClick = (company: CompanyStats) => {
+        if (!user) {
+            toast.error("Please login to view detailed placement statistics.");
+            return;
+        }
+
         const studentsInCompany = allStudents.filter(
             s => s.batch === selectedBatch && s.companies.name === company.name
         );
