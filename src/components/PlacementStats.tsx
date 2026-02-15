@@ -181,8 +181,8 @@ export const PlacementStats = () => {
                 </Card>
             </div>
 
-            {/* Detailed Table */}
-            <div className="max-w-4xl mx-auto overflow-hidden rounded-xl border bg-card/50 backdrop-blur-sm">
+            {/* Detailed Table for Desktop */}
+            <div className="hidden md:block max-w-4xl mx-auto overflow-hidden rounded-xl border bg-card/50 backdrop-blur-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
@@ -221,6 +221,32 @@ export const PlacementStats = () => {
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            {/* List View for Mobile */}
+            <div className="md:hidden space-y-4">
+                {stats.length > 0 ? (
+                    stats.map((company) => (
+                        <div
+                            key={company.slug}
+                            className="flex items-center justify-between p-4 rounded-lg border bg-card/50 backdrop-blur-sm card-glow"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-sm font-bold border shrink-0">
+                                    {company.name.charAt(0)}
+                                </div>
+                                <span className="font-semibold">{company.name}</span>
+                            </div>
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-primary/10 text-primary">
+                                {company.count}
+                            </span>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center py-8 text-muted-foreground border rounded-lg bg-card/50">
+                        No placement data available for Batch {selectedBatch}
+                    </div>
+                )}
             </div>
         </section>
     );
