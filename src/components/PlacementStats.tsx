@@ -46,6 +46,7 @@ export const PlacementStats = () => {
           batch,
           company_id,
           package,
+          student_name,
           companies (
             name,
             slug,
@@ -169,7 +170,7 @@ export const PlacementStats = () => {
                 <Card className="card-glow border-primary/20 bg-card/50 backdrop-blur-sm">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-sm font-medium text-muted-foreground">
-                            Companies Visited
+                            Companies Placed
                         </CardTitle>
                         <Building2 className="h-4 w-4 text-primary" />
                     </CardHeader>
@@ -217,6 +218,16 @@ export const PlacementStats = () => {
                                 </tr>
                             )}
                         </tbody>
+                        {stats.length > 0 && (
+                            <tfoot className="bg-muted/50 font-bold">
+                                <tr>
+                                    <td className="px-6 py-4">Total Offers</td>
+                                    <td className="px-6 py-4 text-right text-primary text-lg">
+                                        {stats.reduce((acc, curr) => acc + curr.count, 0)}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        )}
                     </table>
                 </div>
             </div>
@@ -243,6 +254,15 @@ export const PlacementStats = () => {
                 ) : (
                     <div className="text-center py-8 text-muted-foreground border rounded-lg bg-card/50">
                         No placement data available for Batch {selectedBatch}
+                    </div>
+                )}
+
+                {stats.length > 0 && (
+                    <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/50 card-glow mt-4">
+                        <span className="font-bold">Total Offers</span>
+                        <span className="text-lg font-bold text-primary">
+                            {stats.reduce((acc, curr) => acc + curr.count, 0)}
+                        </span>
                     </div>
                 )}
             </div>
