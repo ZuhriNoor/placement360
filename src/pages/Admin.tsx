@@ -42,6 +42,7 @@ type Round = {
   tips: string;
 };
 
+
 type Company = {
   id: string;
   name: string;
@@ -50,6 +51,20 @@ type Company = {
   website: string | null;
   description: string | null;
   created_at: string;
+};
+
+type PlacedStudent = {
+  id: string;
+  company_id: string;
+  student_name: string;
+  batch: string;
+  linkedin_url: string | null;
+  role: string | null;
+  package: string | null;
+  img_url: string | null;
+  companies?: {
+    name: string;
+  };
 };
 
 // --- Helper Function ---
@@ -79,6 +94,18 @@ export default function Admin() {
   // State for "Add Company" Dialog
   const [newCompany, setNewCompany] = useState({ name: "", slug: "", website: "", description: "" });
   const [isCompanyDialogOpen, setCompanyDialogOpen] = useState(false);
+
+  // State for Placed Students
+  const [placedStudents, setPlacedStudents] = useState<PlacedStudent[]>([]);
+  const [newPlacedStudent, setNewPlacedStudent] = useState({
+    company_id: "",
+    student_name: "",
+    batch: "",
+    linkedin_url: "",
+    role: "",
+    package: "",
+  });
+  const [isStudentDialogOpen, setStudentDialogOpen] = useState(false);
 
   // State for "View Review" Dialog
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
@@ -132,9 +159,29 @@ export default function Admin() {
   useEffect(() => {
     if (isAdmin) {
       if (activeTab === "reviews") fetchReviews();
-      else fetchCompanies();
+      else if (activeTab === "companies") fetchCompanies();
+      else if (activeTab === "placements") {
+        fetchCompanies(); // We need companies for the dropdown
+        fetchPlacedStudents();
+      }
     }
   }, [filter, isAdmin, activeTab]);
+
+  const fetchPlacedStudents = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("placed_students")
+      .select(`*, companies(name)`)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      toast.error("Error loading placed students");
+      console.error(error);
+    } else if (data) {
+      setPlacedStudents(data as any);
+    }
+    setLoading(false);
+  };
 
   const updateReviewStatus = async (reviewId: string, status: "approved" | "rejected") => {
     try {
@@ -195,6 +242,41 @@ export default function Admin() {
     }
   };
 
+  const addPlacedStudent = async () => {
+    if (!newPlacedStudent.company_id || !newPlacedStudent.student_name || !newPlacedStudent.batch) {
+      toast.error("Company, Name, and Batch are required");
+      return;
+    }
+    try {
+      const { error } = await supabase.from("placed_students").insert([newPlacedStudent]);
+      if (error) throw error;
+      toast.success("Student added successfully");
+      setNewPlacedStudent({
+        company_id: "",
+        student_name: "",
+        batch: "",
+        linkedin_url: "",
+        role: "",
+        package: "",
+      });
+      setStudentDialogOpen(false);
+      fetchPlacedStudents();
+    } catch (error: any) {
+      toast.error(error.message || "Error adding student");
+    }
+  };
+
+  const deletePlacedStudent = async (studentId: string) => {
+     try {
+      const { error } = await supabase.from("placed_students").delete().eq("id", studentId);
+      if (error) throw error;
+      toast.success("Student record deleted successfully");
+      fetchPlacedStudents();
+    } catch (error: any) {
+      toast.error(error.message || "Error deleting student record");
+    }
+  };
+
   if (!isAdmin) {
     return (
       <div className="min-h-screen bg-background">
@@ -217,6 +299,7 @@ export default function Admin() {
           <TabsList>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="companies">Companies</TabsTrigger>
+            <TabsTrigger value="placements">Placements</TabsTrigger>
           </TabsList>
 
           <TabsContent value="reviews" className="space-y-6">
@@ -284,6 +367,81 @@ export default function Admin() {
             : <div className="grid gap-4">{companies.map((company) => (
                 <Card key={company.id}><CardContent className="py-6"><div className="flex items-center justify-between"><div className="flex items-center gap-4"><Building2 className="w-8 h-8 text-muted-foreground" /><div><h3 className="font-semibold">{company.name}</h3><p className="text-sm text-muted-foreground">Slug: {company.slug}</p>{company.website && (<a href={company.website} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">{company.website}</a>)}</div></div><Button variant="destructive" size="sm" onClick={() => deleteCompany(company.id)}><Trash2 className="w-4 h-4" /></Button></div></CardContent></Card>
               ))}</div>
+            }
+          </TabsContent>
+
+          <TabsContent value="placements" className="space-y-6">
+             <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold">Manage Placed Students</h2>
+              <Dialog open={isStudentDialogOpen} onOpenChange={setStudentDialogOpen}>
+                <DialogTrigger asChild><Button><Plus className="w-4 h-4 mr-2" />Add Student</Button></DialogTrigger>
+                <DialogContent>
+                  <DialogHeader><DialogTitle>Add Placed Student</DialogTitle></DialogHeader>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="company_select">Company *</Label>
+                      <select 
+                        id="company_select" 
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        value={newPlacedStudent.company_id} 
+                        onChange={(e) => setNewPlacedStudent({ ...newPlacedStudent, company_id: e.target.value })}
+                      >
+                        <option value="">Select a company</option>
+                        {companies.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="student_name">Student Name *</Label>
+                        <Input id="student_name" value={newPlacedStudent.student_name} onChange={(e) => setNewPlacedStudent({ ...newPlacedStudent, student_name: e.target.value })} placeholder="John Doe" />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="batch">Batch *</Label>
+                        <Input id="batch" value={newPlacedStudent.batch} onChange={(e) => setNewPlacedStudent({ ...newPlacedStudent, batch: e.target.value })} placeholder="2024" />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="linkedin_url">LinkedIn URL</Label>
+                        <Input id="linkedin_url" value={newPlacedStudent.linkedin_url} onChange={(e) => setNewPlacedStudent({ ...newPlacedStudent, linkedin_url: e.target.value })} placeholder="https://linkedin.com/in/..." />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="role">Role</Label>
+                        <Input id="role" value={newPlacedStudent.role} onChange={(e) => setNewPlacedStudent({ ...newPlacedStudent, role: e.target.value })} placeholder="Software Engineer" />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="package">Package</Label>
+                        <Input id="package" value={newPlacedStudent.package} onChange={(e) => setNewPlacedStudent({ ...newPlacedStudent, package: e.target.value })} placeholder="12 LPA" />
+                    </div>
+                    <Button onClick={addPlacedStudent} className="w-full">Add Student</Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+
+             {loading ? <div className="flex items-center justify-center py-12"><Loader2 className="w-8 h-8 animate-spin" /></div>
+            : placedStudents.length === 0 ? <Card><CardContent className="py-12 text-center text-muted-foreground">No placed students records found</CardContent></Card>
+            : <div className="grid gap-4">
+                {placedStudents.map((student) => (
+                <Card key={student.id}>
+                    <CardContent className="py-4">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h3 className="font-semibold">{student.student_name}</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    {student.companies?.name} • Batch {student.batch} • {student.role || "N/A"}
+                                </p>
+                                {student.linkedin_url && (
+                                    <a href={student.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline">
+                                        LinkedIn Profile
+                                    </a>
+                                )}
+                            </div>
+                            <Button variant="destructive" size="sm" onClick={() => deletePlacedStudent(student.id)}>
+                                <Trash2 className="w-4 h-4" />
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+              ))}
+              </div>
             }
           </TabsContent>
         </Tabs>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, GraduationCap, Briefcase, ChevronRight, Loader2 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
+import { PlacedStudentsList } from "@/components/PlacedStudentsList";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -85,12 +86,12 @@ const CompanyDetail = () => {
 
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Company Header */}
-                  <Link to="/companies">
-          <Button variant="outline" className="mb-8 neon-border">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Companies
-          </Button>
-        </Link>
+          <Link to="/companies">
+            <Button variant="outline" className="mb-8 neon-border">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Companies
+            </Button>
+          </Link>
           <div className="flex items-start gap-6">
             <div className="h-14 w-14 md:w-24 md:h-24 bg-secondary rounded-lg border border-border flex items-center justify-center">
               <span className="text-2xl font-bold text-muted-foreground">
@@ -135,6 +136,8 @@ const CompanyDetail = () => {
               </div>
             </Link>
           </div>
+
+          <PlacedStudentsList companyId={company.id} />
         </div>
       </main>
     </div>

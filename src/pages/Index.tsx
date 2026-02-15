@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
+import { PlacementStats } from "@/components/PlacementStats";
 
 const Index = () => {
   return (
@@ -45,6 +46,11 @@ const Index = () => {
               Write a Review <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
+        </div>
+
+        {/* Placement Statistics */}
+        <div className="mt-16 md:mt-24">
+          <PlacementStats />
         </div>
         {/* <p className="text-xs text-center mt-5 text-gray-400">Developed by Zuhri Noor, 2026</p> */}
       </main>
